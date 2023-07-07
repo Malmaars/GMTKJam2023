@@ -5,6 +5,7 @@ using UnityEngine;
 public enum EventType
 {
     OnGameStart,
+    CreateImpact
 }
 
 public static class EventManager

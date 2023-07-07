@@ -3,11 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public enum SFX
 {
     Bleep,
     Bloop,
+    ImpactLight,
+    ImpactMedium,
+    ImpactHeavy
 }
 
 public class GlobalSfxPlayer : MonoBehaviour
@@ -33,7 +37,7 @@ public class GlobalSfxPlayer : MonoBehaviour
         SoundEffect sound = soundEffects.FirstOrDefault(s => s.sfx == sfx);
         if (sound != null)
         {
-            audioSource.clip = sound.clip;
+            audioSource.clip = sound.clips[Random.Range(0, sound.clips.Length)];
             audioSource.Play();
         }
     }
@@ -43,5 +47,5 @@ public class GlobalSfxPlayer : MonoBehaviour
 public class SoundEffect
 {
     public SFX sfx;
-    public AudioClip clip;
+    public AudioClip[] clips;
 }
