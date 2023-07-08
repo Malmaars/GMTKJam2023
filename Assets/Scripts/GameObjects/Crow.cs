@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 enum CrowState
 {
@@ -18,6 +20,15 @@ public class Crow : MonoBehaviour
     public int scareDistance = 2;
 
     private CrowState _state;
+    private Animator _animator;
+    private float _size = 2;
+    private SpriteRenderer _sr;
+
+    private void Awake()
+    {
+        _animator = GetComponent<Animator>();
+        _sr = GetComponent<SpriteRenderer>();
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -27,8 +38,18 @@ public class Crow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (body.velocity.x > 0)
+            _sr.flipX = false;
+        else if (body.velocity.x < 0)
+            _sr.flipX = true;
+
         if (_state == CrowState.Targeting)
         {
+            if (transform.position.x > targetFlower.transform.position.x)
+                _sr.flipX = true;
+            else if (transform.position.x < targetFlower.transform.position.x)
+                _sr.flipX = false;
+            
             if (!targetFlower)
             {
                 _state = CrowState.Fleaing;
@@ -39,31 +60,32 @@ public class Crow : MonoBehaviour
             float distanceToTarget = Vector3.Distance(gameObject.transform.position,
                 targetFlower.transform.position);
 
-            float scaleRate = distanceToTarget / 4;
+            float scaleRate = _size + (distanceToTarget / 4);
             transform.localScale = new Vector3(1 + scaleRate, 1 + scaleRate, 1 + scaleRate);
-            
+
             transform.position = Vector2.Lerp(transform.position, targetFlower.transform.position,
-                flySpeed / 2.5f * Time.deltaTime);
-            
+                (flySpeed / 4.5f / (distanceToTarget / 4)) * Time.deltaTime);
+
             if (distanceToTarget < 0.1f)
             {
                 _state = CrowState.Sitting;
+                _animator.SetTrigger("crow-sit");
                 targetFlower.CrowEnter();
             }
         }
         else if (_state == CrowState.Sitting)
         {
-            if (!targetFlower || targetFlower.GetFlowerState() != FlowerState.Normal )
+            if (!targetFlower || targetFlower.GetFlowerState() != FlowerState.Normal)
             {
                 _state = CrowState.Fleaing;
                 StartCoroutine(FlyAway());
                 return;
             }
-            
+
             for (int i = 0; i < BlackBoard.allItems.Count; i++)
             {
                 Item item = BlackBoard.allItems[i];
-                
+
                 float distanceToTarget = Vector3.Distance(gameObject.transform.position,
                     item.rb.transform.position);
 
@@ -72,7 +94,7 @@ public class Crow : MonoBehaviour
 
                 if (item.rb.velocity.magnitude < 0.2f)
                     continue;
-                    
+
                 _state = CrowState.Fleaing;
                 StartCoroutine(FlyAway());
             }
@@ -81,6 +103,9 @@ public class Crow : MonoBehaviour
 
     private IEnumerator FlyAway()
     {
+        _animator.SetTrigger("crow-scare");
+        new WaitForSeconds(.1f / 60);
+        
         targetFlower.CrowLeave();
         body.gravityScale = -1f;
         int dir = Random.Range(0, 2);
@@ -89,7 +114,9 @@ public class Crow : MonoBehaviour
         if (dir == 1)
             body.AddForce(Vector2.left * (flySpeed * 80));
         
-        float rate = flySpeed / 2.5f;
+        _animator.SetTrigger("crow-fly");
+        
+        float rate = _size + (flySpeed / 2.5f);
         for (float i = 0; i < 3; i += 1.0f / 60)
         {
             transform.localScale = new Vector3(1 + i * rate, 1 + i * rate, 1 + i * rate); 

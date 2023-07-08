@@ -29,7 +29,8 @@ public class CrowSpawner : MonoBehaviour
            return;
            
        if (targetFlower.GetFlowerState() == FlowerState.Normal
-           && targetFlower.GetFlowerGrowState() != FlowerGrowState.Seedling)
+           && targetFlower.GetFlowerGrowState() != FlowerGrowState.Seedling
+           && !targetFlower.IsBeingCrowed())
        {
            Crow crow = Instantiate(crowPrefab, GetRandomSpawnPoint(), quaternion.identity);
            crow.targetFlower = targetFlower;

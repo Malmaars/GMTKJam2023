@@ -187,4 +187,9 @@ public class Flower : MonoBehaviour
     {
         _isBeingCrowed = false;
     }
+
+    public bool IsBeingCrowed()
+    {
+        return _isBeingCrowed;
+    }
 }
