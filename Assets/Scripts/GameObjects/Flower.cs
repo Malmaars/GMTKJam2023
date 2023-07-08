@@ -3,15 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using Random = UnityEngine.Random;
 
 public enum FlowerGrowState
 {
-   Seedling, Growing, Grown 
+    Seedling, Growing, Grown 
 }
 
 public enum FlowerState
 {
-   Normal, Harvested, Dead 
+    Normal, Harvested, Dead 
 }
 
 public class Flower : MonoBehaviour
@@ -26,7 +27,9 @@ public class Flower : MonoBehaviour
     [Header("Variables")]
     [Range(0f, 1f)] public float diseaseChance;
     public Color colorDiseased;
-    public int harvestPower; //TODO: make relative to rage
+    public int recoveryRate = 10;
+    public int crowHarmRate = 25;
+    public int harvestPower; 
     
     [Header("Variables | Cycles")]
     public int cyclesPerGrowthStage;
@@ -35,7 +38,9 @@ public class Flower : MonoBehaviour
     private FlowerState _state;
     private FlowerGrowState _growState;
     private bool _isDiseased;
+    private bool _isBeingCrowed;
     private int _cyclesPassed;
+    private int _health;
 
     private void Awake()
     {
@@ -43,7 +48,9 @@ public class Flower : MonoBehaviour
         _growState = FlowerGrowState.Seedling;
         _state = FlowerState.Normal;
         _isDiseased = false;
+        _isBeingCrowed = false;
         _cyclesPassed = 0;
+        _health = 100;
 
         UpdateSprite();
     }
@@ -55,6 +62,10 @@ public class Flower : MonoBehaviour
 
     void Update()
     {
+        if (_state == FlowerState.Normal && _health <= 0)
+        {
+            Die();
+        }
     }
 
     void UpdateSprite()
@@ -67,7 +78,7 @@ public class Flower : MonoBehaviour
         
         if (_state == FlowerState.Harvested) 
         {
-            sr.sprite = spriteDead; //TODO: harvested sprite with roots
+            sr.sprite = spriteDead; 
             return;
         }
 
@@ -89,7 +100,7 @@ public class Flower : MonoBehaviour
     {
         _cyclesPassed++;
         
-        if (_state == FlowerState.Harvested) 
+        if (_state != FlowerState.Normal) 
             return;
 
         if (_cyclesPassed % cyclesPerGrowthStage == 0
@@ -97,7 +108,19 @@ public class Flower : MonoBehaviour
         {
             _growState++;
         }
-        
+
+        if (_isBeingCrowed) {
+            _health -= crowHarmRate;
+            print("AUW! " + _health);
+        }
+        else
+        {
+            if (_health + recoveryRate <= 100)
+                _health += recoveryRate;
+            else
+                _health = 100;
+        }
+
         UpdateSprite();
     }
 
@@ -112,12 +135,16 @@ public class Flower : MonoBehaviour
         if (_state == FlowerState.Harvested)
             return;
             
-        //TODO: change direction based on harvesting direction
         _state = FlowerState.Harvested;
         body.gravityScale = 3.2f;
         body.AddForce(Vector2.up * (harvestPower * 200));
-        body.AddForce(Vector2.right * (harvestPower * 80));
-
+        
+        int dir = Random.Range(0, 2);
+        if (dir == 0)
+            body.AddForce(Vector2.right * (harvestPower * 80));
+        if (dir == 1)
+            body.AddForce(Vector2.left * (harvestPower * 80));
+        
         body.AddTorque(harvestPower * 200);
         //ImpactController.instance.CreateImpact(1);
         StartCoroutine(CameraShaker.ShakeCamera(0.2f, 1));
@@ -149,5 +176,15 @@ public class Flower : MonoBehaviour
     public FlowerGrowState GetFlowerGrowState()
     {
         return _growState;
+    }
+
+    public void CrowEnter()
+    {
+        _isBeingCrowed = true;
+    }
+    
+    public void CrowLeave()
+    {
+        _isBeingCrowed = false;
     }
 }

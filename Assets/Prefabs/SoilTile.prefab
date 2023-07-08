@@ -51,12 +51,11 @@ MonoBehaviour:
   spriteGrown: {fileID: 21300000, guid: 2c65d9261825276428499eba57b2dc1e, type: 3}
   spriteDead: {fileID: 21300000, guid: c3500994f3ccfb945bc2c8c1b47894ac, type: 3}
   body: {fileID: 8636726239828849201}
-  hydrationDeclineRate: 10
-  hydrationApplyRate: 5
   diseaseChance: 0
   colorDiseased: {r: 0.8679245, g: 0.4059143, b: 0.028657902, a: 1}
+  recoveryRate: 10
+  crowHarmRate: 25
   harvestPower: 4
-  cycleTime: 3
   cyclesPerGrowthStage: 3
 --- !u!50 &8636726239828849201
 Rigidbody2D:
@@ -302,6 +301,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   flower: {fileID: 0}
   growthStage: 0
+  cycleTime: 3
+  hydrationDeclineRate: 5
+  hydrationApplyRate: 10
   thisTransform: {fileID: 0}
 --- !u!61 &663535633552181215
 BoxCollider2D:

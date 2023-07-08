@@ -48,10 +48,18 @@ public class Crow : MonoBehaviour
             if (distanceToTarget < 0.1f)
             {
                 _state = CrowState.Sitting;
+                targetFlower.CrowEnter();
             }
         }
         else if (_state == CrowState.Sitting)
         {
+            if (!targetFlower || targetFlower.GetFlowerState() != FlowerState.Normal )
+            {
+                _state = CrowState.Fleaing;
+                StartCoroutine(FlyAway());
+                return;
+            }
+            
             for (int i = 0; i < BlackBoard.allItems.Count; i++)
             {
                 Item item = BlackBoard.allItems[i];
@@ -73,6 +81,7 @@ public class Crow : MonoBehaviour
 
     private IEnumerator FlyAway()
     {
+        targetFlower.CrowLeave();
         body.gravityScale = -1f;
         int dir = Random.Range(0, 2);
         if (dir == 0)

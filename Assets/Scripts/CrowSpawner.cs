@@ -25,8 +25,11 @@ public class CrowSpawner : MonoBehaviour
        int randomFlowerIndex = Random.Range(0, BlackBoard.allTiles.Length - 1);
        Flower targetFlower = BlackBoard.allTiles[randomFlowerIndex].flower;
 
+       if (!targetFlower)
+           return;
+           
        if (targetFlower.GetFlowerState() == FlowerState.Normal
-           && targetFlower.GetFlowerGrowState() == FlowerGrowState.Grown)
+           && targetFlower.GetFlowerGrowState() != FlowerGrowState.Seedling)
        {
            Crow crow = Instantiate(crowPrefab, GetRandomSpawnPoint(), quaternion.identity);
            crow.targetFlower = targetFlower;
