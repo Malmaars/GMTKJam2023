@@ -157,7 +157,7 @@ public class Flower : MonoBehaviour
     {
         for (float i = 0; i < 3; i += 1.0f / 60)
         {
-            transform.localScale = new Vector3(1 + i, 1 + i, 1 + i); 
+            transform.localScale = new Vector3(1 + i * 2, 1 + i * 2, 1 + i * 2); 
             yield return new WaitForSeconds(1.0f / 60);
         }
         
