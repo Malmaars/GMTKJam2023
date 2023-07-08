@@ -19,14 +19,14 @@ public class ImpactController : MonoBehaviour
         {
             case > 0.9f:
                 ApplyHitstun(0.25f);
-                GlobalSfxPlayer.instance.Play(SFX.ImpactHeavy);
+        //        GlobalSfxPlayer.instance.Play(SFX.ImpactHeavy);
                 break;
             case > 0.75f:
                 ApplyHitstun(0.1f);
-                GlobalSfxPlayer.instance.Play(SFX.ImpactMedium);
+         //       GlobalSfxPlayer.instance.Play(SFX.ImpactMedium);
                 break;
             default:
-                GlobalSfxPlayer.instance.Play(SFX.ImpactLight);
+          //      GlobalSfxPlayer.instance.Play(SFX.ImpactLight);
                 break;
         }
     }
