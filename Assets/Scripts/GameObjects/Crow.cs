@@ -11,7 +11,6 @@ public class Crow : MonoBehaviour
 {
     [Header("References")]
     public Flower targetFlower;
-    public Player player;
     public Rigidbody2D body;
     
     [Header("Variables")]
@@ -53,22 +52,33 @@ public class Crow : MonoBehaviour
         }
         else if (_state == CrowState.Sitting)
         {
-            float distanceToTarget = Vector3.Distance(gameObject.transform.position,
-                player.transform.position);
-            
-            if (distanceToTarget < scareDistance)
+            for (int i = 0; i < BlackBoard.allItems.Count; i++)
             {
+                Item item = BlackBoard.allItems[i];
+                
+                float distanceToTarget = Vector3.Distance(gameObject.transform.position,
+                    item.rb.transform.position);
+
+                if (distanceToTarget > scareDistance)
+                    continue;
+
+                if (item.rb.velocity.magnitude < 0.2f)
+                    continue;
+                    
                 _state = CrowState.Fleaing;
                 StartCoroutine(FlyAway());
             }
         }
-
     }
 
     private IEnumerator FlyAway()
     {
         body.gravityScale = -1f;
-        body.AddForce(Vector2.right * (flySpeed * 80));
+        int dir = Random.Range(0, 2);
+        if (dir == 0)
+            body.AddForce(Vector2.right * (flySpeed * 80));
+        if (dir == 1)
+            body.AddForce(Vector2.left * (flySpeed * 80));
         
         float rate = flySpeed / 2.5f;
         for (float i = 0; i < 3; i += 1.0f / 60)

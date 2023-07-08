@@ -97,6 +97,8 @@ public class Flower : MonoBehaviour
         {
             _growState++;
         }
+        
+        UpdateSprite();
     }
 
     public void Prune()
@@ -119,10 +121,7 @@ public class Flower : MonoBehaviour
         body.AddTorque(harvestPower * 200);
         //ImpactController.instance.CreateImpact(1);
         StartCoroutine(CameraShaker.ShakeCamera(0.2f, 1));
-
         StartCoroutine(FlyAway());
-
-        //TODO: apply points
     }
 
     private IEnumerator FlyAway()
@@ -140,5 +139,15 @@ public class Flower : MonoBehaviour
     {
         _state = FlowerState.Dead;
         UpdateSprite();
+    }
+
+    public FlowerState GetFlowerState()
+    {
+        return _state;
+    }
+    
+    public FlowerGrowState GetFlowerGrowState()
+    {
+        return _growState;
     }
 }
