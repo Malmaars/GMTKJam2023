@@ -123,38 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &355776620
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 355776621}
-  m_Layer: 0
-  m_Name: GameManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &355776621
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 355776620}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.3084244, y: 0.36773467, z: 0.03392602}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 838700958}
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &766029776
 GameObject:
   m_ObjectHideFlags: 0
@@ -200,7 +168,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &838700957
+--- !u!1 &983603313
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -208,47 +176,52 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 838700958}
-  - component: {fileID: 838700959}
+  - component: {fileID: 983603315}
+  - component: {fileID: 983603314}
   m_Layer: 0
-  m_Name: CropLibrary
+  m_Name: TestFlower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &838700958
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 838700957}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 355776621}
-  m_RootOrder: -1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &838700959
+--- !u!114 &983603314
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 838700957}
+  m_GameObject: {fileID: 983603313}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 873f1bf6c4304011ae6b61675356100d, type: 3}
+  m_Script: {fileID: 11500000, guid: 67d48353ebdb3c342b58629ee05b03ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cropSpriteSets:
-  - cropType: 0
-    sprites:
-    - {fileID: -1471606699, guid: 38d8684c6dac4df41a471d4d75a4f04d, type: 3}
-    - {fileID: -2007098444, guid: 38d8684c6dac4df41a471d4d75a4f04d, type: 3}
+  spriteSeedling: {fileID: 21300000, guid: 1ab26d40b65fe6642829106833eb9548, type: 3}
+  spriteGrowing: {fileID: 21300000, guid: f117b90e3afa57047ade2bd40ba55bdf, type: 3}
+  spriteGrown: {fileID: 21300000, guid: 2c65d9261825276428499eba57b2dc1e, type: 3}
+  spriteDead: {fileID: 21300000, guid: c3500994f3ccfb945bc2c8c1b47894ac, type: 3}
+  hydrationDeclineRate: 10
+  hydrationApplyRate: 50
+  diseaseChance: 0
+  colorDiseased: {r: 0.75686276, g: 0.71164083, b: 0.070588216, a: 1}
+  cycleTime: 8
+  cyclesPerGrowthStage: 3
+--- !u!4 &983603315
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 983603313}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1729820935
 GameObject:
   m_ObjectHideFlags: 0
@@ -331,7 +304,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d60c50bb69fde04196dfdbba346df5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cropType: 0
+  cropType: {fileID: 0}
   growthStage: 0
 --- !u!4 &1729820938
 Transform:

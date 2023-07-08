@@ -19,9 +19,12 @@ public class Flower : MonoBehaviour
     [Header("Variables")]
     public int hydrationDeclineRate;
     public int hydrationApplyRate;
-    public Color colorDiseased;
-    public float cycleTime;
     [Range(0f, 1f)] public float diseaseChance;
+    public Color colorDiseased;
+    
+    [Header("Variables | Cycles")]
+    public float cycleTime;
+    public int cyclesPerGrowthStage;
 
     private SpriteRenderer sr;
     private FlowerGrowState _growState;
@@ -29,6 +32,8 @@ public class Flower : MonoBehaviour
     private float _lastCycleTime;
     private bool _isDiseased;
     private bool _isAlive;
+
+    private int cyclesPassed;
 
     private void Awake()
     {
@@ -84,6 +89,8 @@ public class Flower : MonoBehaviour
 
     void NextCycle()
     {
+        cyclesPassed++;
+        
         if (_isDiseased  || _hydrationLevel <= 0)
         {
             _isAlive = false;
@@ -92,7 +99,9 @@ public class Flower : MonoBehaviour
     
         _hydrationLevel -= hydrationDeclineRate;
         
-        if (_growState >= FlowerGrowState.Grown) return;
+        if (cyclesPassed % cyclesPerGrowthStage == 0
+            && _growState >= FlowerGrowState.Grown) return;
+        
         _growState++;
     }
 
