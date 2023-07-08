@@ -58,6 +58,7 @@ public class Player : MonoBehaviour
         inputManager.AddActionToInput(InputDistributor.inputActions.Player.PickUpThrow, PickUp);
 
         BlackBoard.SpawnItem(new Vector2(1, 1), itemType.shovel);
+        BlackBoard.SpawnItem(new Vector2(0, 1), itemType.bucket);
         touchingTiles = new List<SoilTile>();
     }
 
