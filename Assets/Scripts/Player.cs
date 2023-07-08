@@ -22,7 +22,16 @@ public class Player : MonoBehaviour
     float dashTimer;
     public float dashTime;
 
+    //float dashCooldown;
+    //public float dashCooldownLength;
+
+    public float throwForce;
+
     Vector2 movingDirection;
+
+    public Transform holdParent;
+
+    Item currentItem;
 
     // Start is called before the first frame update
     void Awake()
@@ -34,13 +43,17 @@ public class Player : MonoBehaviour
             playerInput.Player.Move,
             playerInput.Player.Fire,
             playerInput.Player.Interact,
-            playerInput.Player.Dodge,
+            playerInput.Player.PickUpThrow,
         });
+        BlackBoard.OnAwake();
 
         body = GetComponent<Rigidbody2D>();
 
         //inputManager.AddActionToInput(InputDistributor.inputActions.Player.Focus, forwardTarget.ZoomIn);
         inputManager.AddActionToInput(InputDistributor.inputActions.Player.Interact, Dash);
+        inputManager.AddActionToInput(InputDistributor.inputActions.Player.PickUpThrow, PickUp);
+
+        BlackBoard.SpawnItem(new Vector2(1, 1), itemType.shovel);
     }
 
     private void OnEnable()
@@ -123,6 +136,8 @@ public class Player : MonoBehaviour
 
         dashing = true;
         dashTimer = dashTime;
+
+        
     }
 
     public void PickUp(InputAction.CallbackContext context)
@@ -132,6 +147,31 @@ public class Player : MonoBehaviour
         //1: search if the player is standing close enough to an object
         //2: pick up the object
         //3: Change the button action from dash to interact
+
+        //I think it's safe to assume each item has the same pickup range
+        for (int i = 0; i < BlackBoard.allItems.Count; i++)
+        {
+            //check each location with the player, if one is close enough, select that one and break the loop
+            if(Vector2.Distance(transform.position, BlackBoard.allItems[i].visual.transform.position) < 1)
+            {
+                //pick up this item
+                currentItem = BlackBoard.allItems[i];
+
+                currentItem.visual.transform.SetParent(holdParent);
+                currentItem.visual.transform.localPosition = Vector2.zero;
+                currentItem.rb.isKinematic = true;
+
+                //set the interaction button action to the function of the item
+                inputManager.ClearAllActionsFromInput(InputDistributor.inputActions.Player.Interact);
+                inputManager.AddActionToInput(InputDistributor.inputActions.Player.Interact, currentItem.Interact);
+
+                //remove this function from the pickup button, and change it to throw
+                inputManager.ClearAllActionsFromInput(InputDistributor.inputActions.Player.PickUpThrow);
+                inputManager.AddActionToInput(InputDistributor.inputActions.Player.PickUpThrow, Throw);
+
+                break;
+            }
+        }
     }
 
     public void Throw(InputAction.CallbackContext context)
@@ -140,10 +180,30 @@ public class Player : MonoBehaviour
 
         //1: throw the object
         //2: Change the button action from interact to dash
+
+        if (currentItem == null)
+        {
+            Debug.LogError("No item in hand, can't Throw");
+        }
+
+        else
+        {
+            currentItem.visual.transform.SetParent(null);
+            currentItem.rb.isKinematic = false;
+            currentItem.rb.AddForce(movingDirection * throwForce, ForceMode2D.Impulse);
+        }
+
+        //set the interaction button action to the function of the item
+        inputManager.ClearAllActionsFromInput(InputDistributor.inputActions.Player.Interact);
+        inputManager.AddActionToInput(InputDistributor.inputActions.Player.Interact, Dash);
+
+        //remove this function from the pickup button, and change it to throw
+        inputManager.ClearAllActionsFromInput(InputDistributor.inputActions.Player.PickUpThrow);
+        inputManager.AddActionToInput(InputDistributor.inputActions.Player.PickUpThrow, PickUp);
     }
 
 
-    //Deze functie is overbodid sinds we de functie van de objecten zelf gebruiken?
+    //Deze functie is overbodig sinds we de functie van de objecten zelf gebruiken?
     //public void Interact(InputAction.CallbackContext context)
     //{
 
