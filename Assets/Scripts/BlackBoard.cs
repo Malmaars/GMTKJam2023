@@ -7,6 +7,9 @@ using UnityEngine;
 public static class BlackBoard
 {
     public static List<Item> allItems;
+    public static SoilTile[] allTiles;
+
+    public static SoilTile currentTile;
 
     public static void OnAwake() {
         allItems = new List<Item>();

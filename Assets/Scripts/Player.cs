@@ -34,6 +34,8 @@ public class Player : MonoBehaviour
     public Transform holdParent;
 
     Item currentItem;
+    List<SoilTile> touchingTiles;
+
 
     // Start is called before the first frame update
     void Awake()
@@ -56,6 +58,7 @@ public class Player : MonoBehaviour
         inputManager.AddActionToInput(InputDistributor.inputActions.Player.PickUpThrow, PickUp);
 
         BlackBoard.SpawnItem(new Vector2(1, 1), itemType.shovel);
+        touchingTiles = new List<SoilTile>();
     }
 
     private void OnEnable()
@@ -222,6 +225,55 @@ public class Player : MonoBehaviour
         //remove this function from the pickup button, and change it to throw
         inputManager.ClearAllActionsFromInput(InputDistributor.inputActions.Player.PickUpThrow);
         inputManager.AddActionToInput(InputDistributor.inputActions.Player.PickUpThrow, PickUp);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.gameObject.tag == "SoilTile")
+        {
+            //add the tile to the currenttouchingtiles list
+            touchingTiles.Add(collision.GetComponent<SoilTile>());
+        }
+        PassClosestTile();
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "SoilTile")
+        {
+            //add the tile to the currenttouchingtiles list
+            touchingTiles.Remove(collision.GetComponent<SoilTile>());
+        }
+        PassClosestTile();
+    }
+
+    void PassClosestTile()
+    {
+        if (touchingTiles.Count == 0) 
+        {
+            BlackBoard.currentTile = null;
+            return;
+        }
+        else if (touchingTiles.Count == 1) 
+        {
+            BlackBoard.currentTile = touchingTiles[0];
+            return;
+        }
+        else if( touchingTiles.Count > 1)
+        {
+            //go through the tiles and pass through the closest one
+            SoilTile closestTile = touchingTiles[0];
+
+            for(int i = 1; i < touchingTiles.Count; i++)
+            {
+                if(Vector2.Distance(transform.position, touchingTiles[i].transform.position) < Vector2.Distance(transform.position, closestTile.transform.position))
+                {
+                    closestTile = touchingTiles[i];
+                }
+            }
+
+            BlackBoard.currentTile = closestTile;
+        }
     }
 
 

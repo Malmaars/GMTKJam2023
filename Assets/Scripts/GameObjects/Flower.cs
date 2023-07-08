@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public enum FlowerGrowState
 {
@@ -44,18 +45,19 @@ public class Flower : MonoBehaviour
     private void Awake()
     {
         sr = GetComponentInChildren<SpriteRenderer>();
-    }
-
-    void Start()
-    {
         _growState = FlowerGrowState.Seedling;
         _state = FlowerState.Normal;
         _hydrationLevel = 100;
         _isDiseased = false;
         _lastCycleTime = Time.time;
         _cyclesPassed = 0;
-        
+
         UpdateSprite();
+    }
+
+    void Start()
+    {
+
     }
 
     void Update()
@@ -146,7 +148,9 @@ public class Flower : MonoBehaviour
         body.AddForce(Vector2.right * (harvestPower * 80));
 
         body.AddTorque(harvestPower * 200);
-        ImpactController.instance.CreateImpact(1);
+        //ImpactController.instance.CreateImpact(1);
+        StartCoroutine(CameraShaker.ShakeCamera(0.2f, 1));
+
 
         StartCoroutine(FlyAway());
 

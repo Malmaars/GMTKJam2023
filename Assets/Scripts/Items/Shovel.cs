@@ -15,6 +15,18 @@ public class Shovel : Item
     {
         base.Interact(context);
 
+        //this is the current tile the player is standing on
+
+
+        //if tile is flower: dig flower
+        if(BlackBoard.currentTile.flower == null)
+        {
+            //do nothing, there is no flower
+            return;
+        }
+
+        BlackBoard.currentTile.flower.Harvest();
+
         //dig or something idk
     }
 }
