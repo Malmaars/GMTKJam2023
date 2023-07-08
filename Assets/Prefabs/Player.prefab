@@ -33,7 +33,7 @@ Transform:
   - {fileID: 7912885233014395997}
   - {fileID: 7963116693619658750}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5324823522832356424
 MonoBehaviour:
@@ -52,7 +52,7 @@ MonoBehaviour:
   brakingMultiplier: 0.95
   DashDistance: 30
   dashTime: 0.15
-  dashCooldownLength: 0
+  dashCooldownLength: 0.6
   throwForce: 50
   holdParent: {fileID: 7963116693619658750}
 --- !u!50 &9161745254585996391
