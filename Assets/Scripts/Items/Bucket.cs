@@ -10,6 +10,7 @@ public class Bucket : Item
     public override void Initialize(Vector2 startPosition, itemType type)
     {
         visualPrefab = Resources.Load("Items/bucket") as GameObject;
+        animTriggerName = "pick-up-bucket";
 
         waterCircle = Object.Instantiate(Resources.Load("Items/waterCircle") as GameObject);
         waterCircle.SetActive(false);

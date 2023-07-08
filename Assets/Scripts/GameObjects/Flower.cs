@@ -106,7 +106,13 @@ public class Flower : MonoBehaviour
         if (_cyclesPassed % cyclesPerGrowthStage == 0
             && _growState < FlowerGrowState.Grown)
         {
-            _growState++;
+            float randomNo = Random.Range(0f, 1f);
+            if (randomNo < 0.5f) _growState++;
+
+            if (_growState == FlowerGrowState.Grown)
+            {
+                SpreadSeeds();
+            }
         }
 
         if (_isBeingCrowed) {
@@ -178,6 +184,23 @@ public class Flower : MonoBehaviour
         return _growState;
     }
 
+    private void SpreadSeeds()
+    {
+        Collider2D[] c2ds = new Collider2D[10];
+        int amt = Physics2D.OverlapCircleNonAlloc(transform.position, 3.3f, c2ds);
+        foreach (Collider2D c2d in c2ds)
+        {
+            if (c2d != null)
+            {
+                SoilTile soilTile = c2d.GetComponent<SoilTile>();
+                if (soilTile && !soilTile.flower)
+                {
+                    soilTile.PlantSeed();
+                }
+            }
+        }
+    }
+    
     public void CrowEnter()
     {
         _isBeingCrowed = true;

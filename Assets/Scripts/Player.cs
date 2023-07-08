@@ -10,6 +10,8 @@ public class Player : MonoBehaviour
 
     Rigidbody2D body;
     public Animator playerAnimator;
+    public Animator soldierAnimator;
+    public SpriteRenderer soldierRenderer;
 
     float horizontal;
     float vertical;
@@ -108,10 +110,22 @@ public class Player : MonoBehaviour
                 {
                     body.velocity = body.velocity.normalized * maxSpeed;
                 }
+                
+                soldierAnimator.SetBool("Moving", true);
+
+                if (horizontal < 0)
+                {
+                    soldierRenderer.flipX = true;
+                }
+                else if (horizontal > 0)
+                {
+                    soldierRenderer.flipX = false;
+                }
             }
 
             else
             {
+                soldierAnimator.SetBool("Moving", false);
                 if (body.velocity.magnitude > 0.1f)
                 {
                     body.velocity = body.velocity * brakingMultiplier;
@@ -192,6 +206,8 @@ public class Player : MonoBehaviour
                 currentItem.visual.transform.localPosition = Vector2.zero;
                 currentItem.rb.isKinematic = true;
                 currentItem.rb.velocity = Vector2.zero;
+                
+                soldierAnimator.SetTrigger(currentItem.animTriggerName);
 
                 //set the interaction button action to the function of the item
                 inputManager.ClearAllActionsFromInput(InputDistributor.inputActions.Player.Interact);
@@ -225,6 +241,8 @@ public class Player : MonoBehaviour
             currentItem.visual.transform.SetParent(null);
             currentItem.rb.isKinematic = false;
             currentItem.rb.AddForce(movingDirection * throwForce, ForceMode2D.Impulse);
+                
+            soldierAnimator.SetTrigger("throw");
         }
 
         //set the interaction button action to the function of the item

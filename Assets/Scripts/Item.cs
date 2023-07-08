@@ -12,6 +12,8 @@ public enum itemType
 
 public class Item
 {
+    public string animTriggerName;
+    
     public virtual void Initialize(Vector2 startPosition, itemType type)
     {
         visual = Object.Instantiate(visualPrefab, startPosition, new Quaternion(0, 0, 0, 0));
