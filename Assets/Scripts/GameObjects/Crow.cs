@@ -19,7 +19,7 @@ public class Crow : MonoBehaviour
     public int scareDistance = 2;
 
     private CrowState _state;
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -30,12 +30,19 @@ public class Crow : MonoBehaviour
     {
         if (_state == CrowState.Targeting)
         {
+            if (!targetFlower)
+            {
+                _state = CrowState.Fleaing;
+                StartCoroutine(FlyAway());
+                return;
+            }
+
             float distanceToTarget = Vector3.Distance(gameObject.transform.position,
                 targetFlower.transform.position);
 
             float scaleRate = distanceToTarget / 4;
             transform.localScale = new Vector3(1 + scaleRate, 1 + scaleRate, 1 + scaleRate);
-
+            
             transform.position = Vector2.Lerp(transform.position, targetFlower.transform.position,
                 flySpeed / 2.5f * Time.deltaTime);
             
