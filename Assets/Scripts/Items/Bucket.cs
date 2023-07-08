@@ -28,7 +28,7 @@ public class Bucket : Item
             return;
         }
 
-        BlackBoard.currentTile.flower.ApplyWater();
+        BlackBoard.currentTile.ApplyWater();
 
         //dig or something idk
     }

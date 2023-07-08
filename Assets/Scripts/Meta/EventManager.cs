@@ -5,7 +5,8 @@ using UnityEngine;
 public enum EventType
 {
     OnGameStart,
-    CreateImpact
+    CreateImpact,
+    HydrationChanged
 }
 
 public static class EventManager

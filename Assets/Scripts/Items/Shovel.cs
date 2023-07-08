@@ -25,7 +25,7 @@ public class Shovel : Item
             return;
         }
 
-        BlackBoard.currentTile.flower.Harvest();
+        BlackBoard.currentTile.Harvest();
 
         //dig or something idk
     }
