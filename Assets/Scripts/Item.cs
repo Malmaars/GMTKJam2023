@@ -18,7 +18,10 @@ public class Item
         rb = visual.GetComponent<Rigidbody2D>();
     }
 
+    public virtual void LogicUpdate() { }
+
     public virtual void Interact(InputAction.CallbackContext context) { }
+    public virtual void Release(InputAction.CallbackContext context) { }
 
     public GameObject visualPrefab;
     public GameObject visual;

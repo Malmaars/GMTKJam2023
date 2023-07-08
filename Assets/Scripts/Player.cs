@@ -76,6 +76,12 @@ public class Player : MonoBehaviour
     void Update()
     {
         Move();
+        BlackBoard.playerPosition = transform.position;
+
+        if(currentItem != null)
+        {
+            currentItem.LogicUpdate();
+        }
     }
 
     public void Move()
@@ -190,6 +196,8 @@ public class Player : MonoBehaviour
                 //set the interaction button action to the function of the item
                 inputManager.ClearAllActionsFromInput(InputDistributor.inputActions.Player.Interact);
                 inputManager.AddActionToInput(InputDistributor.inputActions.Player.Interact, currentItem.Interact);
+                InputDistributor.inputActions.Player.Interact.canceled += currentItem.Release;
+
 
                 //remove this function from the pickup button, and change it to throw
                 inputManager.ClearAllActionsFromInput(InputDistributor.inputActions.Player.PickUpThrow);
@@ -222,6 +230,7 @@ public class Player : MonoBehaviour
         //set the interaction button action to the function of the item
         inputManager.ClearAllActionsFromInput(InputDistributor.inputActions.Player.Interact);
         inputManager.AddActionToInput(InputDistributor.inputActions.Player.Interact, Dash);
+        InputDistributor.inputActions.Player.Interact.canceled -= currentItem.Release;
 
         //remove this function from the pickup button, and change it to throw
         inputManager.ClearAllActionsFromInput(InputDistributor.inputActions.Player.PickUpThrow);

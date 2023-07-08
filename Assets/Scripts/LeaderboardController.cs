@@ -19,6 +19,7 @@ public class LeaderBoardController : MonoBehaviour
     private void Start()
     {
         ulong newSession = (ulong)Random.Range(0, ulong.MaxValue);
+
         LootLockerSDKManager.StartGuestSession(newSession.ToString(), (response) =>
         {
             if (response.success)
@@ -31,7 +32,7 @@ public class LeaderBoardController : MonoBehaviour
             }
         });
 
-        StartCoroutine(ShowScoresAfterTimer(3f));
+        StartCoroutine(ShowScoresAfterTimer(1f));
         StartCoroutine(CheckForDuplicatePlayerID(1f, newSession));
 
         SetScore(100);
