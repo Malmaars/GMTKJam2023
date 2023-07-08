@@ -80,10 +80,13 @@ public class Flower : MonoBehaviour
 
         if (_isDiseased)
             sr.color = colorDiseased;
+        else
+            sr.color = Color.white;
 
         float h, s, v;
         Color.RGBToHSV(sr.color, out h, out s, out v);
-        s = _hydrationLevel * 0.01f;
+        v = (_hydrationLevel * 0.01f) + 0.5f;
+        if (v > 1) v = 1;
         sr.color = Color.HSVToRGB(h, s, v);
     }
 
@@ -100,9 +103,8 @@ public class Flower : MonoBehaviour
         _hydrationLevel -= hydrationDeclineRate;
         
         if (cyclesPassed % cyclesPerGrowthStage == 0
-            && _growState >= FlowerGrowState.Grown) return;
-        
-        _growState++;
+            && _growState < FlowerGrowState.Grown)
+            _growState++;
     }
 
     void ApplyWater()
