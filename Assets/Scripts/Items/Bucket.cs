@@ -7,6 +7,8 @@ public class Bucket : Item
 {
     public override void Interact(InputAction.CallbackContext context)
     {
+        visualPrefab = Resources.Load("Items/bucket") as GameObject;
+
         base.Interact(context);
 
         //water or something idk

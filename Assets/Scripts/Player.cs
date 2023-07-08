@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
     PlayerInputActions playerInput;
 
     Rigidbody2D body;
+    public Animator playerAnimator;
 
     float horizontal;
     float vertical;
@@ -22,9 +23,10 @@ public class Player : MonoBehaviour
     float dashTimer;
     public float dashTime;
 
-    //float dashCooldown;
-    //public float dashCooldownLength;
+    float dashCooldown;
+    public float dashCooldownLength;
 
+    public float pickUpRange;
     public float throwForce;
 
     Vector2 movingDirection;
@@ -122,11 +124,19 @@ public class Player : MonoBehaviour
             }
         }
 
+        if(dashCooldown > 0)
+        {
+            dashCooldown -= Time.deltaTime;
+        }
+
         
     }
 
     public void Dash(InputAction.CallbackContext context)
     {
+        if (dashCooldown > 0)
+            return;
+
         //dash towards the direction you're walking
         //Since we're moving the player with velocity, I'll just add force
 
@@ -137,7 +147,18 @@ public class Player : MonoBehaviour
         dashing = true;
         dashTimer = dashTime;
 
-        
+        dashCooldown = dashCooldownLength;
+
+        if(Mathf.Pow(movingDirection.x, 2) > Mathf.Pow(movingDirection.y, 2))
+        {
+            playerAnimator.Play("player-dash-horizontal");
+        }
+
+        else
+        {
+            playerAnimator.Play("player-dash-vertical");
+        }
+
     }
 
     public void PickUp(InputAction.CallbackContext context)
@@ -152,7 +173,7 @@ public class Player : MonoBehaviour
         for (int i = 0; i < BlackBoard.allItems.Count; i++)
         {
             //check each location with the player, if one is close enough, select that one and break the loop
-            if(Vector2.Distance(transform.position, BlackBoard.allItems[i].visual.transform.position) < 1)
+            if(Vector2.Distance(transform.position, BlackBoard.allItems[i].visual.transform.position) < pickUpRange)
             {
                 //pick up this item
                 currentItem = BlackBoard.allItems[i];
@@ -160,6 +181,7 @@ public class Player : MonoBehaviour
                 currentItem.visual.transform.SetParent(holdParent);
                 currentItem.visual.transform.localPosition = Vector2.zero;
                 currentItem.rb.isKinematic = true;
+                currentItem.rb.velocity = Vector2.zero;
 
                 //set the interaction button action to the function of the item
                 inputManager.ClearAllActionsFromInput(InputDistributor.inputActions.Player.Interact);
