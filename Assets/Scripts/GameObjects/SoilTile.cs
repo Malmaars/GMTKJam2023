@@ -7,6 +7,7 @@ using UnityEngine.Tilemaps;
 [CreateAssetMenu]
 public class SoilTile : Interactable
 {
+    public GameObject Hightlight;
     public bool dug;
     public GameObject grassTile;
 
@@ -19,7 +20,7 @@ public class SoilTile : Interactable
     public int hydrationApplyRate = 10;
 
     private Sprite[] sprites;
-    private SpriteRenderer sr;
+    public SpriteRenderer sr;
     
     private float _lastCycleTime;
     private int _hydrationLevel;
@@ -68,6 +69,15 @@ public class SoilTile : Interactable
 
             if (flower) flower.NextCycle();
             UpdateSprite();
+        }
+
+        if (BlackBoard.currentTile == this)
+        {
+            Hightlight.SetActive(true);
+        }
+        else
+        {
+            Hightlight.SetActive(false);
         }
     }
 
@@ -151,10 +161,13 @@ public class SoilTile : Interactable
         {
             IncreaseScore(500);
         }
+
         else if (flower.GetFlowerState() == FlowerState.Dead)
         {
             IncreaseScore(100);
         }
+
+        PlantSeed();
     }
 
     public void PlantSeed()
@@ -162,6 +175,7 @@ public class SoilTile : Interactable
         flower = Instantiate(flowerPrefab, transform.position, Quaternion.identity);
         flower.transform.SetParent(transform);
         UpdateSprite();
+        _hydrationLevel = 40;
     }
 
     public void DigTile()
