@@ -47,15 +47,20 @@ public class Shovel : Item
         }
 
         if (!BlackBoard.currentTile.dug)
+        {
             BlackBoard.soldierAnimator.SetTrigger("Shovel");
-        else if (BlackBoard.currentTile.flower)
+
+            shoveling = true;
+            BlackBoard.shovelPause = true;
+        }
+        else if (BlackBoard.currentTile.flower.GetFlowerGrowState() >= FlowerGrowState.Seedling)
         {
             BlackBoard.soldierAnimator.SetTrigger("HardShovel");
             Camera.main.orthographicSize = 5;
-        }
 
-        shoveling = true;
-        BlackBoard.shovelPause = true;
+            shoveling = true;
+            BlackBoard.shovelPause = true;
+        }
     }
 
     public void Dig()
@@ -65,7 +70,6 @@ public class Shovel : Item
         if (BlackBoard.currentTile && BlackBoard.currentTile.flower != null)
         {
             BlackBoard.currentTile.Harvest();
-            ScoreManager.instance.IncreaseRageMeter(0.25f);
         }
 
         //if it doesn't have a flower, check if the ground is already ground, if it's not, make it

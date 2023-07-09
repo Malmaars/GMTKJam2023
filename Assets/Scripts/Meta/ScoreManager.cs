@@ -16,7 +16,7 @@ public class ScoreManager : MonoBehaviour
     private SliderControl rageBarCtrl;
     [SerializeField] private ScoreMeterControl scoreMeterCtrl;
     
-    private int scoreMtp;
+    private int scoreMtp = 1;
     private float lastScoreMtpTime;
     private float lastFullRageTime;
     private bool isFullyRaging;
@@ -29,6 +29,11 @@ public class ScoreManager : MonoBehaviour
             rageBarCtrl = FindObjectOfType<SliderControl>();
         }
         else Destroy(gameObject);
+    }
+
+    private void Start()
+    {
+        IncreaseRageMeter(0.75f);
     }
 
     private void Update()

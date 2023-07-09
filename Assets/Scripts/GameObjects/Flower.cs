@@ -5,7 +5,7 @@ using Random = UnityEngine.Random;
 
 public enum FlowerGrowState
 {
-    Seedling, Growing, Grown 
+    NotPlanted, Seedling, Growing, Grown 
 }
 
 public enum FlowerState
@@ -174,6 +174,8 @@ public class Flower : MonoBehaviour
             return;
             
         _state = FlowerState.Harvested;
+        _growState = FlowerGrowState.NotPlanted;
+        
         body.gravityScale = 3.2f;
         body.AddForce(Vector2.up * (harvestPower * 200));
         
@@ -255,5 +257,10 @@ public class Flower : MonoBehaviour
     public void PlayBulgeAnim()
     {
         _animator.Play("flower-bulge");
+    }
+
+    public void OnPlanted()
+    {
+        _growState = FlowerGrowState.Seedling;
     }
 }

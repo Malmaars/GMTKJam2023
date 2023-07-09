@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -143,24 +144,37 @@ public class SoilTile : Interactable
     public void Harvest()
     {
         if (flower) flower.Harvest();
-        
+
         _lastCycleTime = Time.time;
         _hydrationLevel = 20;
 
         if (flower.GetFlowerGrowState() == FlowerGrowState.Grown)
         {
             IncreaseScore(500);
+            ScoreManager.instance.IncreaseRageMeter(0.25f);
         }
         else if (flower.GetFlowerState() == FlowerState.Dead)
         {
             IncreaseScore(100);
+            ScoreManager.instance.IncreaseRageMeter(0.1f);
         }
+
+        StartCoroutine(_PlantSeed());
+    }
+
+    private IEnumerator _PlantSeed()
+    {
+        yield return new WaitForSeconds(5);
+        PlantSeed();
     }
 
     public void PlantSeed()
     {
+        if (flower) return;
+        
         flower = Instantiate(flowerPrefab, transform.position, Quaternion.identity);
         flower.transform.SetParent(transform);
+        flower.OnPlanted();
         UpdateSprite();
     }
 
