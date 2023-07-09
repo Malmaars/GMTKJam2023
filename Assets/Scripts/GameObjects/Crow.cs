@@ -39,17 +39,17 @@ public class Crow : MonoBehaviour
 
         if (_state == CrowState.Targeting)
         {
-            if (transform.position.x > targetFlower.transform.position.x)
-                _sr.flipX = true;
-            else if (transform.position.x < targetFlower.transform.position.x)
-                _sr.flipX = false;
-            
-            if (!targetFlower)
+            if (targetFlower == null)
             {
                 _state = CrowState.Fleaing;
                 StartCoroutine(FlyAway());
                 return;
             }
+            
+            if (transform.position.x > targetFlower.transform.position.x)
+                _sr.flipX = true;
+            else if (transform.position.x < targetFlower.transform.position.x)
+                _sr.flipX = false;
 
             float distanceToTarget = Vector3.Distance(gameObject.transform.position,
                 targetFlower.transform.position);
@@ -69,7 +69,7 @@ public class Crow : MonoBehaviour
         }
         else if (_state == CrowState.Sitting)
         {
-            if (!targetFlower || targetFlower.GetFlowerState() != FlowerState.Normal)
+            if (targetFlower == null || targetFlower.GetFlowerState() != FlowerState.Normal)
             {
                 _state = CrowState.Fleaing;
                 StartCoroutine(FlyAway());
@@ -116,7 +116,7 @@ public class Crow : MonoBehaviour
             transform.localScale = new Vector3(1 + i * rate, 1 + i * rate, 1 + i * rate); 
             yield return new WaitForSeconds(1.0f / 60);
         }
-        
+
         Destroy(gameObject);
     }
 }
