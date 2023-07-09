@@ -75,6 +75,16 @@ public class Crow : MonoBehaviour
                 StartCoroutine(FlyAway());
                 return;
             }
+            
+            float distanceToPlayer = Vector3.Distance(gameObject.transform.position,
+                BlackBoard.playerPosition);
+
+            if (distanceToPlayer <= scareDistance)
+            {
+                _state = CrowState.Fleaing;
+                StartCoroutine(FlyAway());
+                return;
+            }
 
             for (int i = 0; i < BlackBoard.allItems.Count; i++)
             {
