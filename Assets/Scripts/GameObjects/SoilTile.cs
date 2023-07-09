@@ -163,7 +163,7 @@ public class SoilTile : Interactable
             IncreaseScore(500);
             ScoreManager.instance.IncreaseRageMeter(0.25f);
         }
-
+    
         else if (flower.GetFlowerState() == FlowerState.Dead)
         {
             IncreaseScore(100);

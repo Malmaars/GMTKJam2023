@@ -54,15 +54,6 @@ public class ScoreManager : MonoBehaviour
         {
             scoreMtp = 1;
         }
-
-        if (BlackBoard.currentTile == this)
-        {
-            Hightlight.SetActive(true);
-        }
-        else
-        {
-            Hightlight.SetActive(false);
-        }
     }
 
     public void IncreaseRageMeter(float amount = 0.1f)
