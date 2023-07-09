@@ -14,6 +14,10 @@ public class ScoreManager : MonoBehaviour
     private float _rageMeter;
     
     private SliderControl rageBarCtrl;
+    [SerializeField] private ScoreMeterControl scoreMeterCtrl;
+    
+    private int scoreMtp;
+    private float lastScoreMtpTime;
 
     private void Awake()
     {
@@ -31,6 +35,11 @@ public class ScoreManager : MonoBehaviour
         if (_rageMeter < 0) _rageMeter = 0;
         
         rageBarCtrl.SetSliderValue(_rageMeter);
+
+        if (Time.time - lastScoreMtpTime > 2.5f && scoreMtp > 1)
+        {
+            scoreMtp = 1;
+        }
     }
 
     public void IncreaseRageMeter(float amount = 0.1f)
@@ -43,6 +52,10 @@ public class ScoreManager : MonoBehaviour
 
     public void IncreaseScore(int baseAmount)
     {
-        score += (int)(baseAmount * (1.0f + _rageMeter));
+        score += (int)(baseAmount * (1.0f + _rageMeter)) * scoreMtp;
+        scoreMeterCtrl.SetScore(score);
+        
+        scoreMtp++;
+        lastScoreMtpTime = Time.time;
     }
 }

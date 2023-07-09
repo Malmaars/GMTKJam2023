@@ -6,6 +6,7 @@ TagManager:
   tags:
   - SoilTile
   - Item
+  - Fence
   layers:
   - Default
   - TransparentFX

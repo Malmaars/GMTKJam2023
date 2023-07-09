@@ -122,6 +122,10 @@ public class SoilTile : Interactable
     public void ApplyWater()
     {
         _hydrationLevel += hydrationApplyRate;
+        if (_hydrationLevel < 100)
+        {
+            ScoreManager.instance.IncreaseScore(hydrationApplyRate);
+        }
         UpdateSprite();
     }
 
@@ -131,6 +135,11 @@ public class SoilTile : Interactable
         
         _lastCycleTime = Time.time;
         _hydrationLevel = 20;
+
+        if (flower.GetFlowerGrowState() == FlowerGrowState.Grown)
+        {
+            ScoreManager.instance.IncreaseScore(500);
+        }
     }
 
     public void PlantSeed()
@@ -144,5 +153,7 @@ public class SoilTile : Interactable
     {
         dug = true;
         grassTile.SetActive(false);
+        
+        ScoreManager.instance.IncreaseScore(100);
     }
 }

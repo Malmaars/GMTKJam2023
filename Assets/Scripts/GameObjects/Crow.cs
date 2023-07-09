@@ -51,13 +51,16 @@ public class Crow : MonoBehaviour
             else if (transform.position.x < targetFlower.transform.position.x)
                 _sr.flipX = false;
 
+            var targetPos3 = targetFlower.transform.position;
+            Vector2 targetPos2 = new Vector2(targetPos3.x, targetPos3.y);
+            
             float distanceToTarget = Vector3.Distance(gameObject.transform.position,
-                targetFlower.transform.position);
+                targetPos2);
 
             float scaleRate = _size + (distanceToTarget / 4);
             transform.localScale = new Vector3(1 + scaleRate, 1 + scaleRate, 1 + scaleRate);
 
-            transform.position = Vector2.Lerp(transform.position, targetFlower.transform.position,
+            transform.position = Vector2.Lerp(transform.position, targetPos2,
                 (flySpeed / 4.5f / (distanceToTarget / 4)) * Time.deltaTime);
 
             if (distanceToTarget < 0.1f)

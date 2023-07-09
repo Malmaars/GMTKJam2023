@@ -422,6 +422,18 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7785328384450721760, guid: d8708818df14b1549b891d6c4a5ea4f1, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7785328384450721760, guid: d8708818df14b1549b891d6c4a5ea4f1, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7785328384450721760, guid: d8708818df14b1549b891d6c4a5ea4f1, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 8251698916455695125, guid: d8708818df14b1549b891d6c4a5ea4f1, type: 3}
       propertyPath: m_Name
       value: SoilTile
