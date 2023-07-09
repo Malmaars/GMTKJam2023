@@ -27,7 +27,7 @@ public class Shovel : Item
             {
                 Dig();
                 shoveling = false;
-                Camera.main.orthographicSize = 8;
+                Camera.main.orthographicSize = 10;
             }
         }
     
