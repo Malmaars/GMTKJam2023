@@ -42,8 +42,14 @@ public class Flower : MonoBehaviour
     private int _cyclesPassed;
     private int _health;
 
+    public Notif notif;
+    public bool healthy, crowless, dead;
+
+
     private void Awake()
     {
+        notif = new Notif(Instantiate(Resources.Load("Notifications/Notif") as GameObject), notificationType.nothing);
+        notif.notificationVisual.transform.position = transform.position + new Vector3(0, 2, 0);
         _animator = GetComponent<Animator>();
         sr = GetComponentInChildren<SpriteRenderer>();
         
@@ -62,6 +68,21 @@ public class Flower : MonoBehaviour
         if (_state == FlowerState.Normal && _health <= 0)
         {
             Die();
+        }
+
+        //check if the notif needs to be removed or not
+        if(notif.notificationVisual != null)
+        {
+            switch (notif.notifType)
+            {
+                case notificationType.water:
+                    if (healthy)
+                    {
+                        //remove the notif
+                        notif.notificationVisual.SetActive(false);
+                    }
+                    break;
+            }
         }
     }
 
@@ -159,6 +180,7 @@ public class Flower : MonoBehaviour
         //ImpactController.instance.CreateImpact(1);
         StartCoroutine(CameraShaker.ShakeCamera(0.2f, 1));
         StartCoroutine(FlyAway());
+        Destroy(notif.notificationVisual);
     }
 
     private IEnumerator FlyAway()
@@ -175,6 +197,7 @@ public class Flower : MonoBehaviour
     public void Die()
     {
         _state = FlowerState.Dead;
+        NotificationManager.SpawnNotif(this, notificationType.dead);
         UpdateSprite();
     }
 

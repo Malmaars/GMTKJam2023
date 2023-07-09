@@ -43,7 +43,7 @@ public class SoilTile : Interactable
     public void Start()
     {
         _lastCycleTime = Time.time;
-        _hydrationLevel = 40;
+        _hydrationLevel = 45;
     }
 
     public void Update()
@@ -55,11 +55,12 @@ public class SoilTile : Interactable
             if (flower && _hydrationLevel <= 0)
             {
                 flower.Die();
-                flower = null;
+                //flower = null;
                 return;
             }
-    
-            _hydrationLevel -= hydrationDeclineRate;
+
+            if (flower != null)
+                _hydrationLevel -= hydrationDeclineRate;
 
             if (flower) flower.NextCycle();
             UpdateSprite();
@@ -75,7 +76,7 @@ public class SoilTile : Interactable
                 {
                     flower.Die();
                     flower.transform.SetParent(null);
-                    flower = null;
+                    //flower = null;
                 }
                 sr.sprite = spriteOverhydrated;
                 break;
@@ -87,10 +88,28 @@ public class SoilTile : Interactable
                 break;
             case >= 25:
                 sr.sprite = spriteNormal;
+                if (flower != null && !flower.dead)
+                {
+                    Debug.Log("Send water help");
+                    NotificationManager.SpawnNotif(flower, notificationType.water);
+                }
                 break;
             default:
                 sr.sprite = spriteDehydrated;
                 break;
+        }
+
+        if (flower != null)
+        {
+            if (_hydrationLevel > 50)
+            {
+                flower.healthy = true;
+            }
+
+            else
+            {
+                flower.healthy = false;
+            }
         }
 
         //float h, s, v;
