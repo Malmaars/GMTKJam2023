@@ -50,6 +50,7 @@ public class Flower : MonoBehaviour
     {
         notif = new Notif(Instantiate(Resources.Load("Notifications/Notif") as GameObject), notificationType.nothing);
         notif.notificationVisual.transform.position = transform.position + new Vector3(0, 2, 0);
+        notif.notificationVisual.SetActive(false);
         _animator = GetComponent<Animator>();
         sr = GetComponentInChildren<SpriteRenderer>();
         
@@ -262,5 +263,6 @@ public class Flower : MonoBehaviour
     public void OnPlanted()
     {
         _growState = FlowerGrowState.Seedling;
+        _health = 100;
     }
 }

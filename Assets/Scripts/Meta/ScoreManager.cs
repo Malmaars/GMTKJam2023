@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class ScoreManager : MonoBehaviour
 {
+    public GameObject leaderboardCanvas;
     public static ScoreManager instance;
 
     public TMP_Text scoreLabel;
@@ -79,5 +80,10 @@ public class ScoreManager : MonoBehaviour
 
         score += result;
         return result;
+    }
+
+    public void ActivateLeaderBoard()
+    {
+        leaderboardCanvas.SetActive(true);
     }
 }
