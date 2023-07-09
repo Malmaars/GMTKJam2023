@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 
 public class Shovel : Item
 {
+    
     public override void Initialize(Vector2 startPosition, itemType type)
     {
         visualPrefab = Resources.Load("Items/shovel") as GameObject;

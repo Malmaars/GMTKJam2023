@@ -8,6 +8,8 @@ public class Bucket : Item
 {
     GameObject waterCircle;
     GameObject splashAnimation;
+
+    float cooldownTimer;
     public override void Initialize(Vector2 startPosition, itemType type)
     {
         visualPrefab = Resources.Load("Items/bucket") as GameObject;
@@ -40,15 +42,21 @@ public class Bucket : Item
             previousInput = inputDirection;
 
         waterCircle.transform.position = BlackBoard.playerPosition + previousInput.normalized * 2;
+
+        if (cooldownTimer > 0)
+            cooldownTimer -= Time.deltaTime;
     }
 
     public override void Interact(InputAction.CallbackContext context)
     {
         base.Interact(context);
 
+        if (cooldownTimer > 0)
+            return;
+
         //this is the current tile the player is standing on
 
-        //if you click fast, it's big aoi, if you hold, the aoi gets smaller
+        //if you click fast, it's big aoe, if you hold, the aoe gets smaller
         waterCircle.SetActive(true);
         waterCircle.transform.localScale = new Vector3(8, 8, 8);
 
@@ -62,6 +70,9 @@ public class Bucket : Item
     public override void Release(InputAction.CallbackContext context)
     {
         base.Release(context);
+
+        if (cooldownTimer > 0)
+            return;
 
         //physics circle to check for tiles to water, based on the circle
         waterCircle.SetActive(false);
@@ -90,7 +101,7 @@ public class Bucket : Item
         splashAnimation.SetActive(true);
         splashAnimation.GetComponent<Animator>().Play("WaterSplash");
 
-
+        cooldownTimer = 2f;
 
         //check if the hit colliders are all tiles
         //BlackBoard.currentTile.ApplyWater();
