@@ -35,6 +35,7 @@ public class Player : MonoBehaviour
 
     public Transform holdParent;
 
+    Item closestItem;
     Item currentItem;
     List<SoilTile> touchingTiles;
 
@@ -59,8 +60,8 @@ public class Player : MonoBehaviour
         inputManager.AddActionToInput(InputDistributor.inputActions.Player.Interact, Dash);
         inputManager.AddActionToInput(InputDistributor.inputActions.Player.PickUpThrow, PickUp);
 
-        BlackBoard.SpawnItem(new Vector2(1, 1), itemType.shovel);
-        BlackBoard.SpawnItem(new Vector2(0, 1), itemType.bucket);
+        BlackBoard.SpawnItem(new Vector2(5, 4), itemType.shovel);
+        BlackBoard.SpawnItem(new Vector2(-5, 4), itemType.bucket);
         touchingTiles = new List<SoilTile>();
     }
 
@@ -194,34 +195,33 @@ public class Player : MonoBehaviour
         //3: Change the button action from dash to interact
 
         //I think it's safe to assume each item has the same pickup range
-        for (int i = 0; i < BlackBoard.allItems.Count; i++)
+
+        if(closestItem == null)
         {
-            //check each location with the player, if one is close enough, select that one and break the loop
-            if(Vector2.Distance(transform.position, BlackBoard.allItems[i].visual.transform.position) < pickUpRange)
-            {
-                //pick up this item
-                currentItem = BlackBoard.allItems[i];
-
-                currentItem.visual.transform.SetParent(holdParent);
-                currentItem.visual.transform.localPosition = Vector2.zero;
-                currentItem.rb.isKinematic = true;
-                currentItem.rb.velocity = Vector2.zero;
-                
-                soldierAnimator.SetTrigger(currentItem.animTriggerName);
-
-                //set the interaction button action to the function of the item
-                inputManager.ClearAllActionsFromInput(InputDistributor.inputActions.Player.Interact);
-                inputManager.AddActionToInput(InputDistributor.inputActions.Player.Interact, currentItem.Interact);
-                InputDistributor.inputActions.Player.Interact.canceled += currentItem.Release;
-
-
-                //remove this function from the pickup button, and change it to throw
-                inputManager.ClearAllActionsFromInput(InputDistributor.inputActions.Player.PickUpThrow);
-                inputManager.AddActionToInput(InputDistributor.inputActions.Player.PickUpThrow, Throw);
-
-                break;
-            }
+            return;
         }
+        //pick up this item
+        currentItem = closestItem;
+
+        currentItem.visual.transform.SetParent(holdParent);
+        currentItem.visual.transform.localPosition = Vector2.zero;
+        currentItem.rb.isKinematic = true;
+        currentItem.rb.velocity = Vector2.zero;
+                
+        soldierAnimator.SetTrigger(currentItem.animTriggerName);
+
+        //set the interaction button action to the function of the item
+        inputManager.ClearAllActionsFromInput(InputDistributor.inputActions.Player.Interact);
+        inputManager.AddActionToInput(InputDistributor.inputActions.Player.Interact, currentItem.Interact);
+        InputDistributor.inputActions.Player.Interact.canceled += currentItem.Release;
+
+
+        //remove this function from the pickup button, and change it to throw
+        inputManager.ClearAllActionsFromInput(InputDistributor.inputActions.Player.PickUpThrow);
+        inputManager.AddActionToInput(InputDistributor.inputActions.Player.PickUpThrow, Throw);
+
+        currentItem.OnPickUp();
+        
     }
 
     public void Throw(InputAction.CallbackContext context)
@@ -253,6 +253,8 @@ public class Player : MonoBehaviour
         //remove this function from the pickup button, and change it to throw
         inputManager.ClearAllActionsFromInput(InputDistributor.inputActions.Player.PickUpThrow);
         inputManager.AddActionToInput(InputDistributor.inputActions.Player.PickUpThrow, PickUp);
+
+        currentItem.OnThrow();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -263,6 +265,11 @@ public class Player : MonoBehaviour
             touchingTiles.Add(collision.GetComponent<SoilTile>());
         }
         PassClosestTile();
+
+        if(collision.gameObject.tag == "Item")
+        {
+            closestItem = collision.GetComponent<itemRef>().thisItem;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -273,6 +280,11 @@ public class Player : MonoBehaviour
             touchingTiles.Remove(collision.GetComponent<SoilTile>());
         }
         PassClosestTile();
+
+        if (collision.gameObject.tag == "Item" && closestItem == collision.GetComponent<itemRef>().thisItem)
+        {
+            closestItem = null;
+        }
     }
 
     void PassClosestTile()

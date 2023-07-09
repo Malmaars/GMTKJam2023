@@ -33,6 +33,10 @@ public class Shovel : Item
         }
 
         //if it doesn't have a flower, check if the ground is already ground, if it's not, make it
-        //if(BlackBoard.currentTile)
+        if (!BlackBoard.currentTile.dug)
+        {
+            //dig it
+            BlackBoard.currentTile.DigTile();
+        }
     }
 }

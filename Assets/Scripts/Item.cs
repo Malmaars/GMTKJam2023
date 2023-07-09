@@ -17,8 +17,20 @@ public class Item
     public virtual void Initialize(Vector2 startPosition, itemType type)
     {
         visual = Object.Instantiate(visualPrefab, startPosition, new Quaternion(0, 0, 0, 0));
+        visual.GetComponent<itemRef>().thisItem = this;
         rb = visual.GetComponent<Rigidbody2D>();
     }
+
+    public virtual void OnPickUp()
+    {
+        visual.GetComponent<SpriteRenderer>().enabled = false;
+    }
+    public virtual void OnThrow()
+    {
+        visual.GetComponent<SpriteRenderer>().enabled = true;
+    }
+
+
 
     public virtual void LogicUpdate() { }
 
