@@ -50,12 +50,15 @@ public class ScoreManager : MonoBehaviour
         rageBarCtrl.SetSliderValue(_rageMeter);
     }
 
-    public void IncreaseScore(int baseAmount)
+    public int IncreaseScore(int baseAmount)
     {
-        score += (int)(baseAmount * (1.0f + _rageMeter)) * scoreMtp;
+        int result = (int)(baseAmount * (1.0f + _rageMeter)) * scoreMtp;
         scoreMeterCtrl.SetScore(score);
         
         scoreMtp++;
         lastScoreMtpTime = Time.time;
+
+        score += result;
+        return result;
     }
 }

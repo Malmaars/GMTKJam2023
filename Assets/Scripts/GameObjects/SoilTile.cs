@@ -1,4 +1,5 @@
 using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
@@ -31,6 +32,9 @@ public class SoilTile : Interactable
     public Sprite spriteSlightlyWet;
     public Sprite spriteVeryWet;
     public Sprite spriteOverhydrated;
+    
+    [SerializeField] private TMP_Text pointsLabel;
+    [SerializeField] private Animator pointsAnimator;
 
     private void Awake()
     {
@@ -124,9 +128,16 @@ public class SoilTile : Interactable
         _hydrationLevel += hydrationApplyRate;
         if (_hydrationLevel < 100)
         {
-            ScoreManager.instance.IncreaseScore(hydrationApplyRate);
+            IncreaseScore(hydrationApplyRate);
         }
         UpdateSprite();
+    }
+
+    private void IncreaseScore(int amount)
+    {
+        int points = ScoreManager.instance.IncreaseScore(amount);
+        pointsLabel.text = "+" + points;
+        pointsAnimator.SetTrigger("popup");
     }
 
     public void Harvest()
@@ -138,7 +149,7 @@ public class SoilTile : Interactable
 
         if (flower.GetFlowerGrowState() == FlowerGrowState.Grown)
         {
-            ScoreManager.instance.IncreaseScore(500);
+            IncreaseScore(500);
         }
     }
 
@@ -154,6 +165,6 @@ public class SoilTile : Interactable
         dug = true;
         grassTile.SetActive(false);
         
-        ScoreManager.instance.IncreaseScore(100);
+        IncreaseScore(100);
     }
 }

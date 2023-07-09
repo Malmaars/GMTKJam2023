@@ -2747,6 +2747,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2007739546}
     m_Modifications:
+    - target: {fileID: 2855306462928691966, guid: d8708818df14b1549b891d6c4a5ea4f1, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 804533865}
     - target: {fileID: 3132230852781271245, guid: d8708818df14b1549b891d6c4a5ea4f1, type: 3}
       propertyPath: m_RootOrder
       value: -1
@@ -2791,28 +2795,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7241947867594340587, guid: d8708818df14b1549b891d6c4a5ea4f1, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7241947867594340587, guid: d8708818df14b1549b891d6c4a5ea4f1, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7241947867594340587, guid: d8708818df14b1549b891d6c4a5ea4f1, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7241947867594340587, guid: d8708818df14b1549b891d6c4a5ea4f1, type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8251698916455695125, guid: d8708818df14b1549b891d6c4a5ea4f1, type: 3}
       propertyPath: m_Name
       value: SoilTile
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 663535633552181215, guid: d8708818df14b1549b891d6c4a5ea4f1, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
