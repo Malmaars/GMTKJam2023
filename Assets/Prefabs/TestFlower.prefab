@@ -25,8 +25,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3585332902774480129}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.125, y: 1, z: 0}
-  m_LocalScale: {x: 10, y: 10, z: 10}
+  m_LocalPosition: {x: 0.125, y: 0.375, z: 0}
+  m_LocalScale: {x: 6, y: 6, z: 6}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1197322072880100022}
@@ -95,6 +95,7 @@ GameObject:
   - component: {fileID: 1197322072880100022}
   - component: {fileID: 3252106412044183668}
   - component: {fileID: 272186177007663212}
+  - component: {fileID: 8298561751786123974}
   m_Layer: 0
   m_Name: TestFlower
   m_TagString: Untagged
@@ -137,6 +138,8 @@ MonoBehaviour:
   body: {fileID: 272186177007663212}
   diseaseChance: 0
   colorDiseased: {r: 0.75686276, g: 0.71164083, b: 0.070588216, a: 1}
+  recoveryRate: 10
+  crowHarmRate: 25
   harvestPower: 5
   cyclesPerGrowthStage: 2
 --- !u!50 &272186177007663212
@@ -166,3 +169,24 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!95 &8298561751786123974
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8164068323173341622}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: fc692018ca800bc46997aaac53b483cf, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

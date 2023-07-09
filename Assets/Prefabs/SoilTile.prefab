@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 3132230852781271245}
   - component: {fileID: 6332985119295425382}
   - component: {fileID: 663535633552181215}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SoilTile
   m_TagString: SoilTile
   m_Icon: {fileID: 0}

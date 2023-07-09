@@ -52,13 +52,12 @@ public class SoilTile : Interactable
             if (flower && _hydrationLevel <= 0)
             {
                 flower.Die();
-                flower.transform.SetParent(null);
                 flower = null;
                 return;
             }
     
             _hydrationLevel -= hydrationDeclineRate;
-            
+
             if (flower) flower.NextCycle();
             UpdateSprite();
         }
