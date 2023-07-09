@@ -19,15 +19,20 @@ public class Shovel : Item
         //this is the current tile the player is standing on
 
         //if tile is flower: dig flower
-        if(BlackBoard.currentTile == null || BlackBoard.currentTile.flower == null)
+        if(BlackBoard.currentTile == null)
         {
-            //do nothing, there is no flower
+            //do nothing, there is no tile
             return;
         }
 
-        BlackBoard.currentTile.Harvest();
-        ScoreManager.instance.IncreaseRageMeter(0.2f);
+        //check if the tile has a flower
+        if (BlackBoard.currentTile.flower != null)
+        {
+            BlackBoard.currentTile.Harvest();
+            ScoreManager.instance.IncreaseRageMeter(0.2f);
+        }
 
-        //dig or something idk
+        //if it doesn't have a flower, check if the ground is already ground, if it's not, make it
+        //if(BlackBoard.currentTile)
     }
 }
