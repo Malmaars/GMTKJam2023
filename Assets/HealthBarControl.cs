@@ -39,7 +39,7 @@ public class SliderControl : MonoBehaviour
         slider.value = setVal;
         int tmp = Mathf.FloorToInt(Remap(setVal,sliderMin,sliderMax,0,(float)faceList.Count-1));
         faceImage.sprite = faceList[tmp];
-        transform.rotation = Quaternion.Euler(0, 0, (Mathf.Sin(Time.time*rotateSpeed))*(shakeIntensity*(1f-setVal))); //new Quaternion(0, 0, (Mathf.Sin(Time.time)*10)*sValue);
+        transform.rotation = Quaternion.Euler(0, 0, (Mathf.Sin(Time.time*rotateSpeed))*(shakeIntensity*(setVal))); //new Quaternion(0, 0, (Mathf.Sin(Time.time)*10)*sValue);
     }
     
     public static float Remap ( float from, float fromMin, float fromMax, float toMin,  float toMax)

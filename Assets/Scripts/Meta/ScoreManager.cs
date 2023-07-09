@@ -24,6 +24,8 @@ public class ScoreManager : MonoBehaviour
     private float lastScoreMtpTime;
     private float lastFullRageTime;
     private bool isFullyRaging;
+    private float lastRageIncreaseTime;
+    private float rageDecrement = 0.05f;
 
     private void Awake()
     {
@@ -38,6 +40,7 @@ public class ScoreManager : MonoBehaviour
     private void Start()
     {
         IncreaseRageMeter(0.75f);
+        lastRageIncreaseTime = Time.time;
     }
 
     private void Update()
@@ -48,7 +51,7 @@ public class ScoreManager : MonoBehaviour
         }
         else if (!isFullyRaging)
         {
-            if (_rageMeter > 0) _rageMeter -= 0.067f * Time.deltaTime;
+            if (_rageMeter > 0) _rageMeter -= rageDecrement * Time.deltaTime;
             if (_rageMeter < 0) _rageMeter = 0;
         }
         
@@ -58,6 +61,12 @@ public class ScoreManager : MonoBehaviour
         if (Time.time - lastScoreMtpTime > 3 && scoreMtp > 1)
         {
             scoreMtp = 1;
+        }
+
+        if (Time.time - lastRageIncreaseTime > 10)
+        {
+            rageDecrement += 0.01f;
+            lastRageIncreaseTime = Time.time;
         }
     }
 

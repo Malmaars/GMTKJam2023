@@ -97,7 +97,7 @@ public class Bucket : Item
         
         if (overlappingTiles.Length > 0)
         {
-            ScoreManager.instance.IncreaseRageMeter(0.15f);
+            ScoreManager.instance.IncreaseRageMeter(0.075f);
         }
 
         Debug.Log(overlappingTiles.Length);
