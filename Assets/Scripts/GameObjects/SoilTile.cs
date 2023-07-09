@@ -116,7 +116,7 @@ public class SoilTile : Interactable
 
         if (flower != null)
         {
-            if (_hydrationLevel > 50)
+            if (_hydrationLevel > 25)
             {
                 flower.healthy = true;
             }
