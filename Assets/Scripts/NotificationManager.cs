@@ -4,42 +4,45 @@ using UnityEngine;
 
 public enum notificationType
 {
+    nothing,
     water,
     crow,
     dead
 }
 
-public class NotificationManager : MonoBehaviour
+public static class NotificationManager
 {
-    public Sprite waterSprite, crowSprite, deadSprite;
-    // Start is called before the first frame update
-    void Start()
+    public static void SpawnNotif(Flower askingFlower, notificationType notifType)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    public void SpawnNotif(Flower askingFlower, notificationType notifType)
-    {
-
         Sprite notifSprite = null;
         switch (notifType)
         {
             case notificationType.water:
-                notifSprite = waterSprite;
+                notifSprite = Resources.Load<Sprite>("Notifications/WaterNotif");
                 break;
             case notificationType.crow:
-                notifSprite = crowSprite;
+                notifSprite = Resources.Load<Sprite>("Notifications/CrowNotif");
                 break;
             case notificationType.dead:
-                notifSprite = deadSprite;
+                notifSprite = Resources.Load<Sprite>("Notifications/DeadNotif");
                 break;
-
         }
+
+        //fetch a prefab and edit the sprite with the correct one
+        askingFlower.notif.notificationVisual.SetActive(true);
+        Debug.Log(notifSprite);
+        askingFlower.notif.notificationVisual.GetComponentInChildren<SpriteRenderer>().sprite = notifSprite;
     }
+}
+
+public struct Notif
+{
+    public Notif(GameObject visual, notificationType type)
+    {
+        notificationVisual = visual;
+        notifType = type;
+    }
+
+    public GameObject notificationVisual;
+    public notificationType notifType;
 }

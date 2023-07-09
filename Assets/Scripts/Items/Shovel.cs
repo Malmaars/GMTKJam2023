@@ -38,6 +38,7 @@ public class Shovel : Item
         {
             //dig it
             BlackBoard.currentTile.DigTile();
+            BlackBoard.currentTile.PlantSeed();
         }
     }
 }
