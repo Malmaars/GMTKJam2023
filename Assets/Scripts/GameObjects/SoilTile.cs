@@ -92,14 +92,14 @@ public class SoilTile : Interactable
                 break;
             case >= 25:
                 sr.sprite = spriteNormal;
+                break;
+            default:
+                sr.sprite = spriteDehydrated;
                 if (flower != null && !flower.dead)
                 {
                     Debug.Log("Send water help");
                     NotificationManager.SpawnNotif(flower, notificationType.water);
                 }
-                break;
-            default:
-                sr.sprite = spriteDehydrated;
                 break;
         }
 
@@ -133,7 +133,7 @@ public class SoilTile : Interactable
         UpdateSprite();
     }
 
-    private void IncreaseScore(int amount)
+    public void IncreaseScore(int amount)
     {
         int points = ScoreManager.instance.IncreaseScore(amount);
         pointsLabel.text = "+" + points;
@@ -150,6 +150,10 @@ public class SoilTile : Interactable
         if (flower.GetFlowerGrowState() == FlowerGrowState.Grown)
         {
             IncreaseScore(500);
+        }
+        else if (flower.GetFlowerState() == FlowerState.Dead)
+        {
+            IncreaseScore(100);
         }
     }
 

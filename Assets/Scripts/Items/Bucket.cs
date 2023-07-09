@@ -93,6 +93,11 @@ public class Bucket : Item
             col.gameObject.GetComponent<SoilTile>().ApplyWater();
         }
 
+        if (overlappingTiles.Length > 0)
+        {
+            ScoreManager.instance.IncreaseRageMeter(0.15f);
+        }
+
         Debug.Log(overlappingTiles.Length);
 
         //trigger the water splash animation

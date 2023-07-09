@@ -62,18 +62,19 @@ public class Shovel : Item
     {
 
         //check if the tile has a flower
-        if (BlackBoard.currentTile.flower != null)
+        if (BlackBoard.currentTile && BlackBoard.currentTile.flower != null)
         {
             BlackBoard.currentTile.Harvest();
-            ScoreManager.instance.IncreaseRageMeter(0.2f);
+            ScoreManager.instance.IncreaseRageMeter(0.25f);
         }
 
         //if it doesn't have a flower, check if the ground is already ground, if it's not, make it
-        if (!BlackBoard.currentTile.dug)
+        if (BlackBoard.currentTile && !BlackBoard.currentTile.dug)
         {
             //dig it
             BlackBoard.currentTile.DigTile();
             BlackBoard.currentTile.PlantSeed();
+            ScoreManager.instance.IncreaseRageMeter(0.1f);
         }
         
         dirtParticles.transform.position = BlackBoard.currentTile.transform.position;

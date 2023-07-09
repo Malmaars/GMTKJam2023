@@ -85,6 +85,8 @@ public class Crow : MonoBehaviour
             if (distanceToPlayer <= scareDistance)
             {
                 _state = CrowState.Fleaing;
+                targetFlower.GetComponentInParent<SoilTile>().IncreaseScore(50);
+                ScoreManager.instance.IncreaseRageMeter(0.05f);
                 StartCoroutine(FlyAway());
                 return;
             }
@@ -103,6 +105,8 @@ public class Crow : MonoBehaviour
                     continue;
 
                 _state = CrowState.Fleaing;
+                targetFlower.GetComponentInParent<SoilTile>().IncreaseScore(100);
+                ScoreManager.instance.IncreaseRageMeter(0.1f);
                 StartCoroutine(FlyAway());
             }
         }

@@ -18,6 +18,8 @@ public class ScoreManager : MonoBehaviour
     
     private int scoreMtp;
     private float lastScoreMtpTime;
+    private float lastFullRageTime;
+    private bool isFullyRaging;
 
     private void Awake()
     {
@@ -31,8 +33,15 @@ public class ScoreManager : MonoBehaviour
 
     private void Update()
     {
-        if (_rageMeter > 0) _rageMeter -= 0.05f * Time.deltaTime;
-        if (_rageMeter < 0) _rageMeter = 0;
+        if (isFullyRaging && Time.time - lastFullRageTime > 2.5f)
+        {
+            isFullyRaging = false;
+        }
+        else if (!isFullyRaging)
+        {
+            if (_rageMeter > 0) _rageMeter -= 0.05f * Time.deltaTime;
+            if (_rageMeter < 0) _rageMeter = 0;
+        }
         
         rageBarCtrl.SetSliderValue(_rageMeter);
 
@@ -45,7 +54,12 @@ public class ScoreManager : MonoBehaviour
     public void IncreaseRageMeter(float amount = 0.1f)
     {
         _rageMeter += amount;
-        if (_rageMeter > 1.0f) _rageMeter = 1.0f;
+        if (_rageMeter >= 1.0f)
+        {
+            _rageMeter = 1.0f;
+            lastFullRageTime = Time.time;
+            isFullyRaging = true;
+        }
         
         rageBarCtrl.SetSliderValue(_rageMeter);
     }
