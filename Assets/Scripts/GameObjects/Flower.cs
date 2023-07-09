@@ -43,7 +43,7 @@ public class Flower : MonoBehaviour
     private int _health;
 
     public Notif notif;
-    public bool healthy, crowless, dead;
+    public bool healthy, dead;
 
 
     private void Awake()
@@ -77,6 +77,13 @@ public class Flower : MonoBehaviour
             {
                 case notificationType.water:
                     if (healthy)
+                    {
+                        //remove the notif
+                        notif.notificationVisual.SetActive(false);
+                    }
+                    break;
+                case notificationType.crow:
+                    if (!_isBeingCrowed)
                     {
                         //remove the notif
                         notif.notificationVisual.SetActive(false);
@@ -232,6 +239,7 @@ public class Flower : MonoBehaviour
     public void CrowEnter()
     {
         _isBeingCrowed = true;
+        NotificationManager.SpawnNotif(this, notificationType.crow);
     }
     
     public void CrowLeave()

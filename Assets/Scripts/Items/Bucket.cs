@@ -32,7 +32,7 @@ public class Bucket : Item
         //gradually make the water circle smaller, till it reaches the minimum size
         //for now the min size is 1.5
 
-        float shrinkSpeed = 1f;
+        float shrinkSpeed = 2f;
 
         if (waterCircle.transform.localScale.x > 1.5f)
             waterCircle.transform.localScale = new Vector3(waterCircle.transform.localScale.x - shrinkSpeed * Time.deltaTime, waterCircle.transform.localScale.y - shrinkSpeed * Time.deltaTime, waterCircle.transform.localScale.z - shrinkSpeed * Time.deltaTime);
@@ -101,7 +101,7 @@ public class Bucket : Item
         splashAnimation.SetActive(true);
         splashAnimation.GetComponent<Animator>().Play("WaterSplash");
 
-        cooldownTimer = 2f;
+        cooldownTimer = 1f;
 
         //check if the hit colliders are all tiles
         //BlackBoard.currentTile.ApplyWater();

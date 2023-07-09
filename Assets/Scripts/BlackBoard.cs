@@ -12,6 +12,9 @@ public static class BlackBoard
     public static SoilTile currentTile;
     public static Vector2 playerPosition;
 
+    public static Animator soldierAnimator;
+    public static bool shovelPause;
+
     public static void OnAwake() {
         allItems = new List<Item>();
     }

@@ -32,6 +32,7 @@ public static class NotificationManager
         askingFlower.notif.notificationVisual.SetActive(true);
         Debug.Log(notifSprite);
         askingFlower.notif.notificationVisual.GetComponentInChildren<SpriteRenderer>().sprite = notifSprite;
+        askingFlower.notif.notifType = notifType;
     }
 }
 

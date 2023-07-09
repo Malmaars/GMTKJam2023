@@ -55,6 +55,7 @@ public class Player : MonoBehaviour
         BlackBoard.OnAwake();
 
         body = GetComponent<Rigidbody2D>();
+        BlackBoard.soldierAnimator = soldierAnimator;
 
         //inputManager.AddActionToInput(InputDistributor.inputActions.Player.Focus, forwardTarget.ZoomIn);
         inputManager.AddActionToInput(InputDistributor.inputActions.Player.Interact, Dash);
@@ -79,6 +80,7 @@ public class Player : MonoBehaviour
     void Update()
     {
         Move();
+
         BlackBoard.playerPosition = transform.position;
 
         if(currentItem != null)
@@ -89,7 +91,11 @@ public class Player : MonoBehaviour
 
     public void Move()
     {
-        Vector2 inputDirection = InputDistributor.inputActions.Player.Move.ReadValue<Vector2>();
+        Vector2 inputDirection = Vector2.zero;
+
+        if (!BlackBoard.shovelPause)
+            inputDirection = InputDistributor.inputActions.Player.Move.ReadValue<Vector2>();
+
         horizontal = inputDirection.x;
         vertical = inputDirection.y;
         movingDirection = inputDirection;
