@@ -6,6 +6,9 @@ using UnityEngine.Tilemaps;
 [CreateAssetMenu]
 public class SoilTile : Interactable
 {
+    public bool dug;
+    public GameObject grassTile;
+
     public Flower flowerPrefab;
     
     public Flower flower;
@@ -52,13 +55,12 @@ public class SoilTile : Interactable
             if (flower && _hydrationLevel <= 0)
             {
                 flower.Die();
-                flower.transform.SetParent(null);
                 flower = null;
                 return;
             }
     
             _hydrationLevel -= hydrationDeclineRate;
-            
+
             if (flower) flower.NextCycle();
             UpdateSprite();
         }
@@ -117,5 +119,11 @@ public class SoilTile : Interactable
         flower = Instantiate(flowerPrefab, transform.position, Quaternion.identity);
         flower.transform.SetParent(transform);
         UpdateSprite();
+    }
+
+    public void DigTile()
+    {
+        dug = true;
+        grassTile.SetActive(false);
     }
 }

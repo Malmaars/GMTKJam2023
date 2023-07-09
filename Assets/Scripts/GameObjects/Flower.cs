@@ -1,8 +1,6 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using Cinemachine;
 using Random = UnityEngine.Random;
 
 public enum FlowerGrowState
@@ -17,6 +15,8 @@ public enum FlowerState
 
 public class Flower : MonoBehaviour
 {
+    private Animator _animator;
+    
     [Header("References")] 
     public Sprite spriteSeedling;
     public Sprite spriteGrowing;
@@ -44,7 +44,9 @@ public class Flower : MonoBehaviour
 
     private void Awake()
     {
+        _animator = GetComponent<Animator>();
         sr = GetComponentInChildren<SpriteRenderer>();
+        
         _growState = FlowerGrowState.Seedling;
         _state = FlowerState.Normal;
         _isDiseased = false;
@@ -53,11 +55,6 @@ public class Flower : MonoBehaviour
         _health = 100;
 
         UpdateSprite();
-    }
-
-    void Start()
-    {
-
     }
 
     void Update()
@@ -107,7 +104,10 @@ public class Flower : MonoBehaviour
             && _growState < FlowerGrowState.Grown)
         {
             float randomNo = Random.Range(0f, 1f);
-            if (randomNo < 0.5f) _growState++;
+            if (randomNo < 0.5f)
+            {
+                PlayBulgeAnim();
+            }
 
             if (_growState == FlowerGrowState.Grown)
             {
@@ -126,7 +126,11 @@ public class Flower : MonoBehaviour
             else
                 _health = 100;
         }
+    }
 
+    public void AdvanceGrowState()
+    {
+        _growState++;
         UpdateSprite();
     }
 
@@ -214,5 +218,10 @@ public class Flower : MonoBehaviour
     public bool IsBeingCrowed()
     {
         return _isBeingCrowed;
+    }
+
+    public void PlayBulgeAnim()
+    {
+        _animator.Play("flower-bulge");
     }
 }

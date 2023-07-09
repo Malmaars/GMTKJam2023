@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 public class Bucket : Item
 {
     GameObject waterCircle;
+    GameObject splashAnimation;
     public override void Initialize(Vector2 startPosition, itemType type)
     {
         visualPrefab = Resources.Load("Items/bucket") as GameObject;
@@ -14,6 +15,8 @@ public class Bucket : Item
 
         waterCircle = Object.Instantiate(Resources.Load("Items/waterCircle") as GameObject);
         waterCircle.SetActive(false);
+        splashAnimation = Object.Instantiate(Resources.Load("Items/WaterSplash") as GameObject);
+        splashAnimation.SetActive(false);
 
         base.Initialize(startPosition, type);
 
@@ -80,6 +83,14 @@ public class Bucket : Item
         }
 
         Debug.Log(overlappingTiles.Length);
+
+        //trigger the water splash animation
+        splashAnimation.transform.position = waterCircle.transform.position + new Vector3(0, waterCircle.transform.localScale.x / 4, 0);
+        splashAnimation.transform.localScale = waterCircle.transform.localScale;
+        splashAnimation.SetActive(true);
+        splashAnimation.GetComponent<Animator>().Play("WaterSplash");
+
+
 
         //check if the hit colliders are all tiles
         //BlackBoard.currentTile.ApplyWater();
