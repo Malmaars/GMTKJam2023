@@ -42,19 +42,20 @@ public class ScoreManager : MonoBehaviour
 
     private void Update()
     {
-        if (isFullyRaging && Time.time - lastFullRageTime > 2.5f)
+        if (isFullyRaging && Time.time - lastFullRageTime > 1.5f)
         {
             isFullyRaging = false;
         }
         else if (!isFullyRaging)
         {
-            if (_rageMeter > 0) _rageMeter -= 0.05f * Time.deltaTime;
+            if (_rageMeter > 0) _rageMeter -= 0.067f * Time.deltaTime;
             if (_rageMeter < 0) _rageMeter = 0;
         }
         
         rageBarCtrl.SetSliderValue(_rageMeter);
+        MusicPlayer.instance.OnRageMeterChange(_rageMeter);
 
-        if (Time.time - lastScoreMtpTime > 2.5f && scoreMtp > 1)
+        if (Time.time - lastScoreMtpTime > 3 && scoreMtp > 1)
         {
             scoreMtp = 1;
         }
@@ -71,6 +72,7 @@ public class ScoreManager : MonoBehaviour
         }
         
         rageBarCtrl.SetSliderValue(_rageMeter);
+        MusicPlayer.instance.OnRageMeterChange(_rageMeter);
     }
 
     public int IncreaseScore(int baseAmount)

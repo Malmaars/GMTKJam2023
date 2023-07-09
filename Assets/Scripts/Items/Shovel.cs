@@ -52,6 +52,7 @@ public class Shovel : Item
 
             shoveling = true;
             BlackBoard.shovelPause = true;
+            GlobalSfxPlayer.instance.Play(SFX.Shovel);
         }
         else if (BlackBoard.currentTile.flower.GetFlowerGrowState() >= FlowerGrowState.Seedling)
         {
@@ -60,6 +61,7 @@ public class Shovel : Item
 
             shoveling = true;
             BlackBoard.shovelPause = true;
+            GlobalSfxPlayer.instance.Play(SFX.Shovel);
         }
     }
 

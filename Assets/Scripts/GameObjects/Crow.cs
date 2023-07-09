@@ -29,7 +29,12 @@ public class Crow : MonoBehaviour
         _animator = GetComponent<Animator>();
         _sr = GetComponent<SpriteRenderer>();
     }
-    
+
+    private void Start()
+    {
+        GlobalSfxPlayer.instance.Play(SFX.Crow, 2f);
+    }
+
     void Update()
     {
         if (body.velocity.x > 0)

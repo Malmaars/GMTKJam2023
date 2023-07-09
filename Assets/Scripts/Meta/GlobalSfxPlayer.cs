@@ -7,11 +7,12 @@ using Random = UnityEngine.Random;
 
 public enum SFX
 {
-    Bleep,
-    Bloop,
-    ImpactLight,
-    ImpactMedium,
-    ImpactHeavy
+    Shovel,
+    Crow,
+    FlyingBush,
+    Splash,
+    LightGrunt,
+    HeavyGrunt,
 }
 
 public class GlobalSfxPlayer : MonoBehaviour
@@ -32,13 +33,14 @@ public class GlobalSfxPlayer : MonoBehaviour
         else Destroy(gameObject);
     }
 
-    public void Play(SFX sfx)
+    public void Play(SFX sfx, float volume = 1.0f)
     {
         SoundEffect sound = soundEffects.FirstOrDefault(s => s.sfx == sfx);
         if (sound != null)
         {
-            audioSource.clip = sound.clips[Random.Range(0, sound.clips.Length)];
-            audioSource.Play();
+            audioSource.volume = volume;
+            // audioSource.clip = ;
+            audioSource.PlayOneShot(sound.clips[Random.Range(0, sound.clips.Length)]);
         }
     }
 }

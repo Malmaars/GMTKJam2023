@@ -93,6 +93,8 @@ public class Bucket : Item
             col.gameObject.GetComponent<SoilTile>().ApplyWater();
         }
 
+        GlobalSfxPlayer.instance.Play(SFX.Splash);
+        
         if (overlappingTiles.Length > 0)
         {
             ScoreManager.instance.IncreaseRageMeter(0.15f);

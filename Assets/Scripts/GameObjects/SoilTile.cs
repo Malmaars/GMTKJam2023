@@ -153,8 +153,6 @@ public class SoilTile : Interactable
 
     public void Harvest()
     {
-        if (flower) flower.Harvest();
-
         _lastCycleTime = Time.time;
         _hydrationLevel = 20;
 
@@ -162,13 +160,17 @@ public class SoilTile : Interactable
         {
             IncreaseScore(500);
             ScoreManager.instance.IncreaseRageMeter(0.25f);
+            GlobalSfxPlayer.instance.Play(SFX.HeavyGrunt);
         }
     
         else if (flower.GetFlowerState() == FlowerState.Dead)
         {
             IncreaseScore(100);
             ScoreManager.instance.IncreaseRageMeter(0.1f);
+            GlobalSfxPlayer.instance.Play(SFX.LightGrunt);
         }
+        
+        if (flower) flower.Harvest();
 
         StartCoroutine(_PlantSeed());
     }
@@ -194,6 +196,7 @@ public class SoilTile : Interactable
     {
         dug = true;
         grassTile.SetActive(false);
+        GlobalSfxPlayer.instance.Play(SFX.LightGrunt);
         
         IncreaseScore(100);
     }

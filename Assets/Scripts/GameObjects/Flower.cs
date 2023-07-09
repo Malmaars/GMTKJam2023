@@ -160,6 +160,8 @@ public class Flower : MonoBehaviour
     public void AdvanceGrowState()
     {
         _growState++;
+        if (_growState > FlowerGrowState.Grown) _growState = FlowerGrowState.Grown;
+        
         UpdateSprite();
     }
 
@@ -191,6 +193,8 @@ public class Flower : MonoBehaviour
         StartCoroutine(CameraShaker.ShakeCamera(0.2f, 1));
         StartCoroutine(FlyAway());
         Destroy(notif.notificationVisual);
+        
+        GlobalSfxPlayer.instance.Play(SFX.FlyingBush);
     }
 
     private IEnumerator FlyAway()
