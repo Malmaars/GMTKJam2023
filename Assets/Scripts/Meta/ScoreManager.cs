@@ -6,7 +6,10 @@ using UnityEngine;
 
 public class ScoreManager : MonoBehaviour
 {
+    public LeaderBoardController leaderController;
     public GameObject leaderboardCanvas;
+    public TextMeshProUGUI yourScore;
+
     public static ScoreManager instance;
 
     public TMP_Text scoreLabel;
@@ -17,7 +20,7 @@ public class ScoreManager : MonoBehaviour
     private SliderControl rageBarCtrl;
     [SerializeField] private ScoreMeterControl scoreMeterCtrl;
     
-    private int scoreMtp = 1;
+    public int scoreMtp = 1;
     private float lastScoreMtpTime;
     private float lastFullRageTime;
     private bool isFullyRaging;
@@ -84,6 +87,9 @@ public class ScoreManager : MonoBehaviour
 
     public void ActivateLeaderBoard()
     {
+        yourScore.text = score.ToString();
         leaderboardCanvas.SetActive(true);
+        leaderController.SetScore(score);
+        FindObjectOfType<Player>().gameObject.SetActive(false);
     }
 }
