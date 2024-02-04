@@ -63,10 +63,16 @@ public class ScoreManager : MonoBehaviour
             scoreMtp = 1;
         }
 
+
         if (Time.time - lastRageIncreaseTime > 10)
         {
             rageDecrement += 0.01f;
             lastRageIncreaseTime = Time.time;
+        }
+        if(_rageMeter <= 0)
+        {
+            ActivateLeaderBoard();
+
         }
     }
 
@@ -87,12 +93,13 @@ public class ScoreManager : MonoBehaviour
     public int IncreaseScore(int baseAmount)
     {
         int result = (int)(baseAmount * (1.0f + _rageMeter)) * scoreMtp;
-        scoreMeterCtrl.SetScore(score);
         
         scoreMtp++;
         lastScoreMtpTime = Time.time;
 
         score += result;
+        scoreMeterCtrl.SetScore(score);
+
         return result;
     }
 

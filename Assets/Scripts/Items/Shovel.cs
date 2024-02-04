@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 
 public class Shovel : Item
 {
+    SoilTile thisCurrentTile;
     ParticleSystem dirtParticles;
     bool shoveling;
     public override void Initialize(Vector2 startPosition, itemType type)
@@ -48,6 +49,7 @@ public class Shovel : Item
 
         if (!BlackBoard.currentTile.dug)
         {
+            thisCurrentTile = BlackBoard.currentTile;
             BlackBoard.soldierAnimator.SetTrigger("Shovel");
 
             shoveling = true;
@@ -56,6 +58,7 @@ public class Shovel : Item
         }
         else if (BlackBoard.currentTile.flower.GetFlowerGrowState() >= FlowerGrowState.Seedling)
         {
+            thisCurrentTile = BlackBoard.currentTile;
             BlackBoard.soldierAnimator.SetTrigger("HardShovel");
             Camera.main.orthographicSize = 5;
 
@@ -69,22 +72,23 @@ public class Shovel : Item
     {
 
         //check if the tile has a flower
-        if (BlackBoard.currentTile && BlackBoard.currentTile.flower != null)
+        if (thisCurrentTile && thisCurrentTile.flower != null)
         {
-            BlackBoard.currentTile.Harvest();
+            thisCurrentTile.Harvest();
         }
 
         //if it doesn't have a flower, check if the ground is already ground, if it's not, make it
-        if (BlackBoard.currentTile && !BlackBoard.currentTile.dug)
+        if (thisCurrentTile && !thisCurrentTile.dug)
         {
             //dig it
-            BlackBoard.currentTile.DigTile();
-            BlackBoard.currentTile.PlantSeed();
+            thisCurrentTile.DigTile();
+            thisCurrentTile.PlantSeed();
             ScoreManager.instance.IncreaseRageMeter(0.1f);
         }
         
         dirtParticles.transform.position = BlackBoard.currentTile.transform.position;
         dirtParticles.Play();
         BlackBoard.shovelPause = false;
+        thisCurrentTile = null;
     }
 }

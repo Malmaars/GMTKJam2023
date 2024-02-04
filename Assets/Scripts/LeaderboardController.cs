@@ -32,11 +32,8 @@ public class LeaderBoardController : MonoBehaviour
             }
         });
 
-        StartCoroutine(ShowScoresAfterTimer(1f));
+        StartCoroutine(ShowScoresAfterTimer(3f));
         StartCoroutine(CheckForDuplicatePlayerID(1f, newSession));
-
-        SetScore(100);
-
     }
 
     public void SetScore(int _score)
